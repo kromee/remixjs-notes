@@ -1,752 +1,574 @@
 var __create = Object.create;
 var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
 var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
 var __getOwnPropNames = Object.getOwnPropertyNames;
-var __getProtoOf = Object.getPrototypeOf, __hasOwnProp = Object.prototype.hasOwnProperty;
-var __export = (target, all) => {
-  for (var name in all)
-    __defProp(target, name, { get: all[name], enumerable: !0 });
-}, __copyProps = (to, from, except, desc) => {
-  if (from && typeof from == "object" || typeof from == "function")
-    for (let key of __getOwnPropNames(from))
-      !__hasOwnProp.call(to, key) && key !== except && __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
-  return to;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __getProtoOf = Object.getPrototypeOf;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
 };
-var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
-  // If the importer is in node compatibility mode or this is not an ESM
-  // file that has been converted to a CommonJS file using a Babel-
-  // compatible transform (i.e. "__esModule" has not been set), then set
-  // "default" to the CommonJS "module.exports" for node compatibility.
-  isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: !0 }) : target,
-  mod
-)), __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: !0 }), mod);
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
+var __export = (target, all) => {
+  __markAsModule(target);
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __reExport = (target, module2, desc) => {
+  if (module2 && typeof module2 === "object" || typeof module2 === "function") {
+    for (let key of __getOwnPropNames(module2))
+      if (!__hasOwnProp.call(target, key) && key !== "default")
+        __defProp(target, key, { get: () => module2[key], enumerable: !(desc = __getOwnPropDesc(module2, key)) || desc.enumerable });
+  }
+  return target;
+};
+var __toModule = (module2) => {
+  return __reExport(__markAsModule(__defProp(module2 != null ? __create(__getProtoOf(module2)) : {}, "default", module2 && module2.__esModule && "default" in module2 ? { get: () => module2.default, enumerable: true } : { value: module2, enumerable: true })), module2);
+};
 
 // <stdin>
-var stdin_exports = {};
-__export(stdin_exports, {
-  assets: () => assets_manifest_default,
-  assetsBuildDirectory: () => assetsBuildDirectory,
+__export(exports, {
+  assets: () => import_assets.default,
   entry: () => entry,
-  future: () => future,
-  publicPath: () => publicPath,
   routes: () => routes
 });
-module.exports = __toCommonJS(stdin_exports);
+
+// node_modules/@remix-run/dev/compiler/shims/react.ts
+var React = __toModule(require("react"));
 
 // app/entry.server.jsx
 var entry_server_exports = {};
 __export(entry_server_exports, {
   default: () => handleRequest
 });
-var import_node_stream = require("node:stream"), import_node = require("@remix-run/node"), import_react = require("@remix-run/react"), import_isbot = __toESM(require("isbot")), import_server = require("react-dom/server"), import_jsx_dev_runtime = require("react/jsx-dev-runtime"), ABORT_DELAY = 5e3;
-function handleRequest(request, responseStatusCode, responseHeaders, remixContext, loadContext) {
-  return (0, import_isbot.default)(request.headers.get("user-agent")) ? handleBotRequest(
-    request,
-    responseStatusCode,
-    responseHeaders,
-    remixContext
-  ) : handleBrowserRequest(
-    request,
-    responseStatusCode,
-    responseHeaders,
-    remixContext
-  );
-}
-function handleBotRequest(request, responseStatusCode, responseHeaders, remixContext) {
-  return new Promise((resolve, reject) => {
-    let shellRendered = !1, { pipe, abort } = (0, import_server.renderToPipeableStream)(
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(
-        import_react.RemixServer,
-        {
-          context: remixContext,
-          url: request.url,
-          abortDelay: ABORT_DELAY
-        },
-        void 0,
-        !1,
-        {
-          fileName: "app/entry.server.jsx",
-          lineNumber: 47,
-          columnNumber: 7
-        },
-        this
-      ),
-      {
-        onAllReady() {
-          shellRendered = !0;
-          let body = new import_node_stream.PassThrough();
-          responseHeaders.set("Content-Type", "text/html"), resolve(
-            new import_node.Response(body, {
-              headers: responseHeaders,
-              status: responseStatusCode
-            })
-          ), pipe(body);
-        },
-        onShellError(error) {
-          reject(error);
-        },
-        onError(error) {
-          responseStatusCode = 500, shellRendered && console.error(error);
-        }
-      }
-    );
-    setTimeout(abort, ABORT_DELAY);
-  });
-}
-function handleBrowserRequest(request, responseStatusCode, responseHeaders, remixContext) {
-  return new Promise((resolve, reject) => {
-    let shellRendered = !1, { pipe, abort } = (0, import_server.renderToPipeableStream)(
-      /* @__PURE__ */ (0, import_jsx_dev_runtime.jsxDEV)(
-        import_react.RemixServer,
-        {
-          context: remixContext,
-          url: request.url,
-          abortDelay: ABORT_DELAY
-        },
-        void 0,
-        !1,
-        {
-          fileName: "app/entry.server.jsx",
-          lineNumber: 97,
-          columnNumber: 7
-        },
-        this
-      ),
-      {
-        onShellReady() {
-          shellRendered = !0;
-          let body = new import_node_stream.PassThrough();
-          responseHeaders.set("Content-Type", "text/html"), resolve(
-            new import_node.Response(body, {
-              headers: responseHeaders,
-              status: responseStatusCode
-            })
-          ), pipe(body);
-        },
-        onShellError(error) {
-          reject(error);
-        },
-        onError(error) {
-          responseStatusCode = 500, shellRendered && console.error(error);
-        }
-      }
-    );
-    setTimeout(abort, ABORT_DELAY);
+var import_server = __toModule(require("react-dom/server"));
+var import_remix = __toModule(require("remix"));
+function handleRequest(request, responseStatusCode, responseHeaders, remixContext) {
+  let markup = (0, import_server.renderToString)(/* @__PURE__ */ React.createElement(import_remix.RemixServer, {
+    context: remixContext,
+    url: request.url
+  }));
+  responseHeaders.set("Content-Type", "text/html");
+  return new Response("<!DOCTYPE html>" + markup, {
+    status: responseStatusCode,
+    headers: responseHeaders
   });
 }
 
-// app/root.jsx
+// route-module:C:\Users\Eduardo\Desktop\cursos\remix-blog\app\root.jsx
 var root_exports = {};
 __export(root_exports, {
   ErrorBoundary: () => ErrorBoundary,
   default: () => App,
   links: () => links,
-  meta: () => meta
+  loader: () => loader
 });
+var import_remix3 = __toModule(require("remix"));
 
-// app/styles/main.css
-var main_default = "/build/_assets/main-THLKTWJO.css";
+// app/styles/global.css
+var global_default = "/build/_assets/global-AFIROZCC.css";
 
-// app/components/MainNavigation.jsx
-var import_react2 = require("@remix-run/react"), import_jsx_dev_runtime2 = require("react/jsx-dev-runtime");
-function MainNavigation() {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("nav", { id: "main-navigation", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("ul", { children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("li", { className: "nav-item", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(import_react2.NavLink, { to: "/", children: "Home" }, void 0, !1, {
-      fileName: "app/components/MainNavigation.jsx",
-      lineNumber: 8,
-      columnNumber: 21
-    }, this) }, void 0, !1, {
-      fileName: "app/components/MainNavigation.jsx",
-      lineNumber: 7,
-      columnNumber: 17
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)("li", { className: "nav-item", children: /* @__PURE__ */ (0, import_jsx_dev_runtime2.jsxDEV)(import_react2.NavLink, { to: "/notes", children: "My Notes" }, void 0, !1, {
-      fileName: "app/components/MainNavigation.jsx",
-      lineNumber: 11,
-      columnNumber: 21
-    }, this) }, void 0, !1, {
-      fileName: "app/components/MainNavigation.jsx",
-      lineNumber: 10,
-      columnNumber: 17
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/components/MainNavigation.jsx",
-    lineNumber: 6,
-    columnNumber: 13
-  }, this) }, void 0, !1, {
-    fileName: "app/components/MainNavigation.jsx",
-    lineNumber: 5,
-    columnNumber: 9
-  }, this);
-}
-var MainNavigation_default = MainNavigation;
+// app/utils/session.server.ts
+var import_bcrypt = __toModule(require("bcrypt"));
 
-// app/root.jsx
-var import_react3 = require("@remix-run/react"), import_jsx_dev_runtime3 = require("react/jsx-dev-runtime"), links = () => [
-  ...main_default ? [{ rel: "stylesheet", href: main_default }] : []
-], meta = () => [
-  { title: "Notas Remix" },
-  {
-    property: "og:title",
-    content: "Very cool app"
-  },
-  {
-    name: "description",
-    content: "This app is the best"
+// app/utils/db.server.ts
+var import_client = __toModule(require("@prisma/client"));
+var db;
+if (process.env.NODE_ENV === "production") {
+  db = new import_client.PrismaClient();
+  db.$connect();
+} else {
+  if (!global.__db) {
+    global.__db = new import_client.PrismaClient();
+    global.__db.$connect();
   }
-];
+  db = global.__db;
+}
+
+// app/utils/session.server.ts
+var import_remix2 = __toModule(require("remix"));
+async function login({ username, password }) {
+  const user = await db.user.findUnique({
+    where: {
+      username
+    }
+  });
+  if (!user)
+    return null;
+  const isCorrectPassword = await import_bcrypt.default.compare(password, user.passwordHash);
+  if (!isCorrectPassword)
+    return null;
+  return user;
+}
+async function register({ username, password }) {
+  const passwordHash = await import_bcrypt.default.hash(password, 10);
+  return db.user.create({
+    data: {
+      username,
+      passwordHash
+    }
+  });
+}
+var sessionSecret = process.env.SESSION_SECRET;
+if (!sessionSecret) {
+  throw new Error("No session secret");
+}
+var storage = (0, import_remix2.createCookieSessionStorage)({
+  cookie: {
+    name: "remixblog_session",
+    secure: process.env.NODE_ENV === "production",
+    secrets: [sessionSecret],
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 60 * 24 * 60,
+    httpOnly: true
+  }
+});
+async function createUserSession(userId, redirectTo) {
+  const session = await storage.getSession();
+  session.set("userId", userId);
+  return (0, import_remix2.redirect)(redirectTo, {
+    headers: {
+      "Set-Cookie": await storage.commitSession(session)
+    }
+  });
+}
+function getUserSession(request) {
+  return storage.getSession(request.headers.get("Cookie"));
+}
+async function getUser(request) {
+  const session = await getUserSession(request);
+  const userId = session.get("userId");
+  if (!userId || typeof userId !== "string") {
+    return null;
+  }
+  try {
+    const user = await db.user.findUnique({ where: { id: userId } });
+    return user;
+  } catch (error) {
+    return null;
+  }
+}
+async function logout(request) {
+  const session = await storage.getSession(request.headers.get("Cookie"));
+  return (0, import_remix2.redirect)("/auth/logout", {
+    headers: {
+      "Set-Cookie": await storage.destroySession(session)
+    }
+  });
+}
+
+// route-module:C:\Users\Eduardo\Desktop\cursos\remix-blog\app\root.jsx
+var links = () => [{ rel: "stylesheet", href: global_default }];
+var loader = async ({ request }) => {
+  const user = await getUser(request);
+  const data = {
+    user
+  };
+  return data;
+};
 function App() {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("html", { lang: "en", children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("head", { children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("meta", { charSet: "utf-8" }, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 39,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("meta", { name: "viewport", content: "width=device-width,initial-scale=1" }, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 40,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.Meta, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 41,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.Links, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 42,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/root.jsx",
-      lineNumber: 38,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("body", { children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("header", { children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(MainNavigation_default, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 47,
-        columnNumber: 9
-      }, this) }, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 46,
-        columnNumber: 7
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.Outlet, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 49,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.ScrollRestoration, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 50,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.Scripts, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 51,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.LiveReload, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 52,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/root.jsx",
-      lineNumber: 45,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/root.jsx",
-    lineNumber: 37,
-    columnNumber: 5
-  }, this);
+  return /* @__PURE__ */ React.createElement(Document, null, /* @__PURE__ */ React.createElement(Layout, null, /* @__PURE__ */ React.createElement(import_remix3.Outlet, null)));
+}
+function Document({ children, title }) {
+  return /* @__PURE__ */ React.createElement("html", {
+    lang: "en"
+  }, /* @__PURE__ */ React.createElement("head", null, /* @__PURE__ */ React.createElement("meta", {
+    charSet: "utf-8"
+  }), /* @__PURE__ */ React.createElement("meta", {
+    name: "viewport",
+    content: "width=device-width,initial-scale=1"
+  }), /* @__PURE__ */ React.createElement(import_remix3.Meta, null), /* @__PURE__ */ React.createElement(import_remix3.Links, null), /* @__PURE__ */ React.createElement("title", null, title ? title : "Remix Blog")), /* @__PURE__ */ React.createElement("body", null, children, process.env.NODE_ENV === "development" ? /* @__PURE__ */ React.createElement(import_remix3.LiveReload, null) : null));
+}
+function Layout({ children }) {
+  const { user } = (0, import_remix3.useLoaderData)();
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("nav", {
+    className: "navbar"
+  }, /* @__PURE__ */ React.createElement(import_remix3.Link, {
+    to: "/",
+    className: "logo"
+  }, "Remix"), /* @__PURE__ */ React.createElement("ul", {
+    className: "nav"
+  }, /* @__PURE__ */ React.createElement("li", null, /* @__PURE__ */ React.createElement(import_remix3.Link, {
+    to: "/posts"
+  }, "Posts")), user ? /* @__PURE__ */ React.createElement("li", null, /* @__PURE__ */ React.createElement("form", {
+    action: "/auth/logout",
+    method: "POST"
+  }, /* @__PURE__ */ React.createElement("button", {
+    type: "submit",
+    className: "btn"
+  }, "Logout ", user.username))) : /* @__PURE__ */ React.createElement("li", null, /* @__PURE__ */ React.createElement(import_remix3.Link, {
+    to: "/auth/login"
+  }, "Login")))), /* @__PURE__ */ React.createElement("div", {
+    className: "container"
+  }, children));
 }
 function ErrorBoundary({ error }) {
-  var _a;
-  let caughtResponse = useCatch();
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("html", { lang: "en", children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("head", { children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.Meta, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 63,
-        columnNumber: 7
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.Links, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 64,
-        columnNumber: 7
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("title", { children: "caughtResponse.statusText" }, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 65,
-        columnNumber: 7
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/root.jsx",
-      lineNumber: 62,
-      columnNumber: 5
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("body", { children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("header", { children: /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(MainNavigation_default, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 70,
-        columnNumber: 7
-      }, this) }, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 69,
-        columnNumber: 5
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("main", { className: "error", children: [
-        /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("h1", { children: "caughtResponse.statusText" }, void 0, !1, {
-          fileName: "app/root.jsx",
-          lineNumber: 73,
-          columnNumber: 9
-        }, this),
-        /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("p", { children: ((_a = caughtResponse.data) == null ? void 0 : _a.message) || "something went wrong! " }, void 0, !1, {
-          fileName: "app/root.jsx",
-          lineNumber: 74,
-          columnNumber: 9
-        }, this),
-        /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)("p", { children: [
-          "Ir atr\xE1s ",
-          /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.Link, { to: "/", children: "Incio" }, void 0, !1, {
-            fileName: "app/root.jsx",
-            lineNumber: 75,
-            columnNumber: 21
-          }, this),
-          " Ir al inicio"
-        ] }, void 0, !0, {
-          fileName: "app/root.jsx",
-          lineNumber: 75,
-          columnNumber: 9
-        }, this)
-      ] }, void 0, !0, {
-        fileName: "app/root.jsx",
-        lineNumber: 72,
-        columnNumber: 7
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.ScrollRestoration, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 77,
-        columnNumber: 7
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.Scripts, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 78,
-        columnNumber: 7
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime3.jsxDEV)(import_react3.LiveReload, {}, void 0, !1, {
-        fileName: "app/root.jsx",
-        lineNumber: 79,
-        columnNumber: 7
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/root.jsx",
-      lineNumber: 68,
-      columnNumber: 5
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/root.jsx",
-    lineNumber: 61,
-    columnNumber: 5
-  }, this);
+  console.log("Aca el puto error");
+  console.log(error);
+  return /* @__PURE__ */ React.createElement(Document, null, /* @__PURE__ */ React.createElement(Layout, null, /* @__PURE__ */ React.createElement("h1", null, "Error"), /* @__PURE__ */ React.createElement("p", null, error.message)));
 }
 
-// app/routes/$noteId.jsx
-var noteId_exports = {};
-__export(noteId_exports, {
-  default: () => NoteDetailsPage,
-  links: () => links2,
-  loader: () => loader,
-  meta: () => meta2
-});
-var import_react4 = require("@remix-run/react");
-
-// app/data/node.js
-var import_promises = __toESM(require("fs/promises"));
-async function getStoredNotes() {
-  let rawFileContent = await import_promises.default.readFile("notes.json", { encoding: "utf-8" });
-  return JSON.parse(rawFileContent).notes ?? [];
-}
-function storeNotes(notes) {
-  return import_promises.default.writeFile("notes.json", JSON.stringify({ notes: notes || [] }));
-}
-
-// app/styles/note-details.css
-var note_details_default = "/build/_assets/note-details-BRVJV52J.css";
-
-// app/routes/$noteId.jsx
-var import_jsx_dev_runtime4 = require("react/jsx-dev-runtime");
-function NoteDetailsPage() {
-  let note = (0, import_react4.useLoaderData)();
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("main", { id: "note-details", children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("header", { children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("nav", { children: /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)(import_react4.Link, { to: "/notes", children: "Back to all Notes" }, void 0, !1, {
-        fileName: "app/routes/$noteId.jsx",
-        lineNumber: 13,
-        columnNumber: 11
-      }, this) }, void 0, !1, {
-        fileName: "app/routes/$noteId.jsx",
-        lineNumber: 12,
-        columnNumber: 9
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("h1", { children: note.title }, void 0, !1, {
-        fileName: "app/routes/$noteId.jsx",
-        lineNumber: 15,
-        columnNumber: 9
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/routes/$noteId.jsx",
-      lineNumber: 11,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime4.jsxDEV)("p", { id: "note-details-content", children: note.content }, void 0, !1, {
-      fileName: "app/routes/$noteId.jsx",
-      lineNumber: 17,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/$noteId.jsx",
-    lineNumber: 10,
-    columnNumber: 5
-  }, this);
-}
-async function loader({ params }) {
-  let notes = await getStoredNotes(), noteId = params.noteId, selectNode = notes.find((note) => note.id === noteId);
-  if (!selectNode)
-    throw json(
-      { message: "No se encuentra la nota " + noteId },
-      { status: 404 }
-    );
-  return selectNode;
-}
-function links2() {
-  return [{ rel: "stylesheet", href: note_details_default }];
-}
-function meta2({ data }) {
-  return [
-    {
-      title: data.title,
-      description: "todas las notas eduardo"
-    }
-  ];
-}
-
-// app/routes/_index.jsx
-var index_exports = {};
-__export(index_exports, {
-  default: () => Index,
-  links: () => links3
-});
-var import_react5 = require("@remix-run/react");
-
-// app/styles/home.css
-var home_default = "/build/_assets/home-PJIINAIX.css";
-
-// app/routes/_index.jsx
-var import_jsx_dev_runtime5 = require("react/jsx-dev-runtime");
-function Index() {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)("main", { id: "content", children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)("h1", { children: "A better way of keeping track of your notes" }, void 0, !1, {
-      fileName: "app/routes/_index.jsx",
-      lineNumber: 8,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)("p", { children: "Try our early beta and never loose track of your notes again!" }, void 0, !1, {
-      fileName: "app/routes/_index.jsx",
-      lineNumber: 9,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)("p", { id: "cta", children: /* @__PURE__ */ (0, import_jsx_dev_runtime5.jsxDEV)(import_react5.Link, { to: "/notes", children: "Try Now!" }, void 0, !1, {
-      fileName: "app/routes/_index.jsx",
-      lineNumber: 11,
-      columnNumber: 9
-    }, this) }, void 0, !1, {
-      fileName: "app/routes/_index.jsx",
-      lineNumber: 10,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/_index.jsx",
-    lineNumber: 7,
-    columnNumber: 5
-  }, this);
-}
-function links3() {
-  return [{ rel: "stylesheet", href: home_default }];
-}
-
-// app/routes/notes.jsx
-var notes_exports = {};
-__export(notes_exports, {
-  CatchBoundary: () => CatchBoundary,
-  ErrorBoundary: () => ErrorBoundary2,
+// route-module:C:\Users\Eduardo\Desktop\cursos\remix-blog\app\routes\auth\logout.jsx
+var logout_exports = {};
+__export(logout_exports, {
   action: () => action,
-  default: () => NotesPage,
-  links: () => links6,
-  loader: () => loader2,
-  meta: () => meta3
+  loader: () => loader2
 });
-var import_node3 = require("@remix-run/node");
+var import_remix4 = __toModule(require("remix"));
+var action = async ({ request }) => {
+  return logout(request);
+};
+var loader2 = async () => {
+  return (0, import_remix4.redirect)("/");
+};
 
-// app/components/NewNote.css
-var NewNote_default = "/build/_assets/NewNote-HBKIPWFQ.css";
-
-// app/components/NewNote.jsx
-var import_react6 = require("@remix-run/react"), import_jsx_dev_runtime6 = require("react/jsx-dev-runtime");
-function NewNote() {
-  let data = (0, import_react6.useActionData)(), isSubmiting = (0, import_react6.useTransition)().state === "submitting";
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)(import_react6.Form, { method: "post", id: "note-form", children: [
-    (data == null ? void 0 : data.message) && /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("p", { children: data.message }, void 0, !1, {
-      fileName: "app/components/NewNote.jsx",
-      lineNumber: 13,
-      columnNumber: 31
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("p", { children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("label", { htmlFor: "title", children: "Title" }, void 0, !1, {
-        fileName: "app/components/NewNote.jsx",
-        lineNumber: 15,
-        columnNumber: 17
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("input", { type: "text", id: "title", name: "title", required: !0 }, void 0, !1, {
-        fileName: "app/components/NewNote.jsx",
-        lineNumber: 16,
-        columnNumber: 17
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/components/NewNote.jsx",
-      lineNumber: 14,
-      columnNumber: 13
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("p", { children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("label", { htmlFor: "content", children: "Content" }, void 0, !1, {
-        fileName: "app/components/NewNote.jsx",
-        lineNumber: 19,
-        columnNumber: 13
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("input", { type: "content", id: "title", name: "content", rows: "5", required: !0 }, void 0, !1, {
-        fileName: "app/components/NewNote.jsx",
-        lineNumber: 20,
-        columnNumber: 13
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/components/NewNote.jsx",
-      lineNumber: 18,
-      columnNumber: 13
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("div", { className: "form-actions", children: /* @__PURE__ */ (0, import_jsx_dev_runtime6.jsxDEV)("button", { disabled: isSubmiting, children: isSubmiting ? "Adding.." : "Add note" }, void 0, !1, {
-      fileName: "app/components/NewNote.jsx",
-      lineNumber: 24,
-      columnNumber: 17
-    }, this) }, void 0, !1, {
-      fileName: "app/components/NewNote.jsx",
-      lineNumber: 23,
-      columnNumber: 13
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/components/NewNote.jsx",
-    lineNumber: 12,
-    columnNumber: 5
-  }, this);
+// route-module:C:\Users\Eduardo\Desktop\cursos\remix-blog\app\routes\auth\login.jsx
+var login_exports = {};
+__export(login_exports, {
+  action: () => action2,
+  default: () => login_default
+});
+var import_remix5 = __toModule(require("remix"));
+function validateUsername(username) {
+  if (typeof username !== "string" || username.length < 3) {
+    return "Username must be at least 3 characters";
+  }
 }
-var NewNote_default2 = NewNote;
-function links4() {
-  return [{ rel: "stylesheet", href: NewNote_default }];
+function validatePassword(password) {
+  if (typeof password !== "string" || password.length < 6) {
+    return "Password must be at least 6 characters";
+  }
 }
-
-// app/components/NoteList.css
-var NoteList_default = "/build/_assets/NoteList-KS7CKPGL.css";
-
-// app/components/NoteList.jsx
-var import_react7 = require("@remix-run/react"), import_jsx_dev_runtime7 = require("react/jsx-dev-runtime");
-function NoteList({ notes }) {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("ul", { id: "note-list", children: notes.map(
-    (note, index) => /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("li", { className: "note", children: /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)(import_react7.Link, { to: "/" + note.id, children: /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("article", { children: [
-      /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("header", { children: [
-        /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("ul", { className: "note-meta", children: [
-          /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("li", { children: [
-            "#",
-            index + 1
-          ] }, void 0, !0, {
-            fileName: "app/components/NoteList.jsx",
-            lineNumber: 14,
-            columnNumber: 29
-          }, this),
-          /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("li", { children: /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("time", { dateTime: note.id, children: new Date(note.id).toLocaleDateString("en-US", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-            hour: "2-digit",
-            minute: "2-digit"
-          }) }, void 0, !1, {
-            fileName: "app/components/NoteList.jsx",
-            lineNumber: 16,
-            columnNumber: 33
-          }, this) }, void 0, !1, {
-            fileName: "app/components/NoteList.jsx",
-            lineNumber: 15,
-            columnNumber: 29
-          }, this)
-        ] }, void 0, !0, {
-          fileName: "app/components/NoteList.jsx",
-          lineNumber: 13,
-          columnNumber: 25
-        }, this),
-        /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("h2", { children: note.title }, void 0, !1, {
-          fileName: "app/components/NoteList.jsx",
-          lineNumber: 27,
-          columnNumber: 25
-        }, this)
-      ] }, void 0, !0, {
-        fileName: "app/components/NoteList.jsx",
-        lineNumber: 12,
-        columnNumber: 21
-      }, this),
-      /* @__PURE__ */ (0, import_jsx_dev_runtime7.jsxDEV)("p", { children: note.content }, void 0, !1, {
-        fileName: "app/components/NoteList.jsx",
-        lineNumber: 29,
-        columnNumber: 21
-      }, this)
-    ] }, void 0, !0, {
-      fileName: "app/components/NoteList.jsx",
-      lineNumber: 11,
-      columnNumber: 17
-    }, this) }, void 0, !1, {
-      fileName: "app/components/NoteList.jsx",
-      lineNumber: 9,
-      columnNumber: 17
-    }, this) }, note.id, !1, {
-      fileName: "app/components/NoteList.jsx",
-      lineNumber: 8,
-      columnNumber: 7
-    }, this)
-  ) }, void 0, !1, {
-    fileName: "app/components/NoteList.jsx",
-    lineNumber: 6,
-    columnNumber: 5
-  }, this);
+function badRequest(data) {
+  return (0, import_remix5.json)(data, { status: 400 });
 }
-var NoteList_default2 = NoteList;
-function links5() {
-  return [{ rel: "stylesheet", href: NoteList_default }];
-}
-
-// app/routes/notes.jsx
-var import_react8 = require("@remix-run/react"), import_jsx_dev_runtime8 = require("react/jsx-dev-runtime");
-function NotesPage() {
-  let notes = (0, import_react8.useLoaderData)();
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("main", { children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)(NewNote_default2, {}, void 0, !1, {
-      fileName: "app/routes/notes.jsx",
-      lineNumber: 18,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)(NoteList_default2, { notes }, void 0, !1, {
-      fileName: "app/routes/notes.jsx",
-      lineNumber: 19,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/notes.jsx",
-    lineNumber: 17,
-    columnNumber: 5
-  }, this);
-}
-async function loader2() {
-  let notes = await getStoredNotes();
-  if (!notes || notes.length === 0)
-    throw (0, import_node3.json)(
-      { message: "Could not find any notes." },
-      {
-        status: 404,
-        statusText: "Not Found"
+var action2 = async ({ request }) => {
+  const form = await request.formData();
+  const loginType = form.get("loginType");
+  const username = form.get("username");
+  const password = form.get("password");
+  const fields = { loginType, username, password };
+  const fieldErrors = {
+    username: validateUsername(username),
+    password: validatePassword(password)
+  };
+  if (Object.values(fieldErrors).some(Boolean)) {
+    return badRequest({ fieldErrors, fields });
+  }
+  switch (loginType) {
+    case "login": {
+      const user = await login({ username, password });
+      if (!user) {
+        return badRequest({
+          fields,
+          fieldErrors: { username: "Invalid credentials" }
+        });
       }
-    );
-  return notes;
-}
-async function action({ request }) {
-  let formData = await request.formData(), noteData = Object.fromEntries(formData);
-  if (noteData.title.trim().length < 5)
-    return {
-      message: "El t\xEDtulo deber contener m\xE1s de 5 car\xE1cteres."
-    };
-  let existingNotes = await getStoredNotes();
-  noteData.id = (/* @__PURE__ */ new Date()).toISOString();
-  let updatenNotes = existingNotes.concat(noteData);
-  return await storeNotes(updatenNotes), (0, import_node3.redirect)("/notes");
-}
-function links6() {
-  return [...links4(), ...links5()];
-}
-function meta3() {
-  return [
-    {
-      title: "Alls notes",
-      description: "todas las notas eduardo"
+      return createUserSession(user.id, "/posts");
     }
-  ];
+    case "register": {
+      const userExists = await db.user.findFirst({
+        where: {
+          username
+        }
+      });
+      if (userExists) {
+        return badRequest({
+          fields,
+          fieldErrors: { username: `User ${username} already exists` }
+        });
+      }
+      const user = await register({ username, password });
+      if (!user) {
+        return badRequest({
+          fields,
+          formError: "Something went wrong"
+        });
+      }
+      return createUserSession(user.id, "/posts");
+    }
+    default: {
+      return badRequest({
+        fields,
+        formError: "Login type is invalid"
+      });
+    }
+  }
+  return (0, import_remix5.redirect)("/posts");
+};
+function Login() {
+  var _a, _b, _c, _d, _e, _f, _g;
+  const actionData = (0, import_remix5.useActionData)();
+  return /* @__PURE__ */ React.createElement("div", {
+    className: "auth-container"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "page-header"
+  }, /* @__PURE__ */ React.createElement("h1", null, "Login")), /* @__PURE__ */ React.createElement("div", {
+    className: "page-content"
+  }, /* @__PURE__ */ React.createElement("form", {
+    method: "POST"
+  }, /* @__PURE__ */ React.createElement("fieldset", null, /* @__PURE__ */ React.createElement("legend", null, "Login or Register"), /* @__PURE__ */ React.createElement("label", null, /* @__PURE__ */ React.createElement("input", {
+    type: "radio",
+    name: "loginType",
+    value: "login",
+    defaultChecked: !((_a = actionData == null ? void 0 : actionData.fields) == null ? void 0 : _a.loginType) || ((_b = actionData == null ? void 0 : actionData.fields) == null ? void 0 : _b.loginType) === "login"
+  }), " ", "Login"), /* @__PURE__ */ React.createElement("label", null, /* @__PURE__ */ React.createElement("input", {
+    type: "radio",
+    name: "loginType",
+    value: "register",
+    defaultChecked: ((_c = actionData == null ? void 0 : actionData.fields) == null ? void 0 : _c.loginType) === "register"
+  }), " ", "Register")), /* @__PURE__ */ React.createElement("div", {
+    className: "form-control"
+  }, /* @__PURE__ */ React.createElement("label", {
+    htmlFor: "username"
+  }, "Username"), /* @__PURE__ */ React.createElement("input", {
+    type: "text",
+    name: "username",
+    id: "username",
+    defaultValue: (_d = actionData == null ? void 0 : actionData.fields) == null ? void 0 : _d.username
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "error"
+  }, ((_e = actionData == null ? void 0 : actionData.fieldErrors) == null ? void 0 : _e.username) ? /* @__PURE__ */ React.createElement("p", {
+    className: "form-validation-error",
+    role: "alert",
+    id: "username-error"
+  }, actionData.fieldErrors.username) : null)), /* @__PURE__ */ React.createElement("div", {
+    className: "form-control"
+  }, /* @__PURE__ */ React.createElement("label", {
+    htmlFor: "password"
+  }, "Password"), /* @__PURE__ */ React.createElement("input", {
+    type: "password",
+    name: "password",
+    id: "password",
+    defaultValue: (_f = actionData == null ? void 0 : actionData.fields) == null ? void 0 : _f.password
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "error"
+  }, ((_g = actionData == null ? void 0 : actionData.fieldErrors) == null ? void 0 : _g.password) ? /* @__PURE__ */ React.createElement("p", {
+    className: "form-validation-error",
+    role: "alert",
+    id: "password-error"
+  }, actionData.fieldErrors.password) : null)), /* @__PURE__ */ React.createElement("button", {
+    className: "btn btn-block",
+    type: "submit"
+  }, "Submit"))));
 }
-function CatchBoundary() {
-  var _a;
-  let message = ((_a = (0, import_react8.useCatch)().data) == null ? void 0 : _a.message) || "Data not found.";
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("main", { children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)(NewNote_default2, {}, void 0, !1, {
-      fileName: "app/routes/notes.jsx",
-      lineNumber: 77,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("p", { className: "info-message", children: message }, void 0, !1, {
-      fileName: "app/routes/notes.jsx",
-      lineNumber: 78,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/notes.jsx",
-    lineNumber: 76,
-    columnNumber: 5
-  }, this);
-}
-function ErrorBoundary2({ error }) {
-  return /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("main", { className: "error", children: [
-    /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("h1", { children: "An error related to your notes occurred!" }, void 0, !1, {
-      fileName: "app/routes/notes.jsx",
-      lineNumber: 87,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("p", { children: error.message }, void 0, !1, {
-      fileName: "app/routes/notes.jsx",
-      lineNumber: 88,
-      columnNumber: 7
-    }, this),
-    /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)("p", { children: [
-      "Back to ",
-      /* @__PURE__ */ (0, import_jsx_dev_runtime8.jsxDEV)(import_react8.Link, { to: "/", children: "safety" }, void 0, !1, {
-        fileName: "app/routes/notes.jsx",
-        lineNumber: 90,
-        columnNumber: 17
-      }, this),
-      "!"
-    ] }, void 0, !0, {
-      fileName: "app/routes/notes.jsx",
-      lineNumber: 89,
-      columnNumber: 7
-    }, this)
-  ] }, void 0, !0, {
-    fileName: "app/routes/notes.jsx",
-    lineNumber: 86,
-    columnNumber: 5
-  }, this);
-}
+var login_default = Login;
 
-// server-assets-manifest:@remix-run/dev/assets-manifest
-var assets_manifest_default = { entry: { module: "/build/entry.client-54USGT3W.js", imports: ["/build/_shared/chunk-ZWGWGGVF.js", "/build/_shared/chunk-GIAAE3CH.js", "/build/_shared/chunk-NEJNOPWD.js", "/build/_shared/chunk-XU7DNSPJ.js", "/build/_shared/chunk-BOXFZXVX.js", "/build/_shared/chunk-OUSFLI64.js", "/build/_shared/chunk-UWV35TSL.js", "/build/_shared/chunk-PNG5AS42.js"] }, routes: { root: { id: "root", parentId: void 0, path: "", index: void 0, caseSensitive: void 0, module: "/build/root-K5DUVFCO.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !0 }, "routes/$noteId": { id: "routes/$noteId", parentId: "root", path: ":noteId", index: void 0, caseSensitive: void 0, module: "/build/routes/$noteId-DUZVURKG.js", imports: void 0, hasAction: !1, hasLoader: !0, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/_index": { id: "routes/_index", parentId: "root", path: void 0, index: !0, caseSensitive: void 0, module: "/build/routes/_index-UWSP7VXO.js", imports: void 0, hasAction: !1, hasLoader: !1, hasCatchBoundary: !1, hasErrorBoundary: !1 }, "routes/notes": { id: "routes/notes", parentId: "root", path: "notes", index: void 0, caseSensitive: void 0, module: "/build/routes/notes-KMU2CVPV.js", imports: void 0, hasAction: !0, hasLoader: !0, hasCatchBoundary: !0, hasErrorBoundary: !0 } }, version: "c3489ebb", hmr: { runtime: "/build/_shared\\chunk-OUSFLI64.js", timestamp: 1694737688808 }, url: "/build/manifest-C3489EBB.js" };
+// route-module:C:\Users\Eduardo\Desktop\cursos\remix-blog\app\routes\index.jsx
+var routes_exports = {};
+__export(routes_exports, {
+  default: () => routes_default
+});
+function Home() {
+  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("h1", null, "Welcome to Remix!"), /* @__PURE__ */ React.createElement("p", null, "Remix is a full stack web framework by the creators of React Router. This is a simple blog app from the Traversy Media Remix crash course."));
+}
+var routes_default = Home;
 
-// server-entry-module:@remix-run/dev/server-build
-var assetsBuildDirectory = "public\\build", future = { v2_dev: !0, unstable_postcss: !1, unstable_tailwind: !1, v2_errorBoundary: !0, v2_headers: !0, v2_meta: !0, v2_normalizeFormMethod: !0, v2_routeConvention: !0 }, publicPath = "/build/", entry = { module: entry_server_exports }, routes = {
-  root: {
+// route-module:C:\Users\Eduardo\Desktop\cursos\remix-blog\app\routes\posts.jsx
+var posts_exports = {};
+__export(posts_exports, {
+  default: () => posts_default
+});
+var import_remix6 = __toModule(require("remix"));
+function Posts() {
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement(import_remix6.Outlet, null));
+}
+var posts_default = Posts;
+
+// route-module:C:\Users\Eduardo\Desktop\cursos\remix-blog\app\routes\posts\$postId.jsx
+var postId_exports = {};
+__export(postId_exports, {
+  action: () => action3,
+  default: () => postId_default,
+  loader: () => loader3
+});
+var import_remix7 = __toModule(require("remix"));
+var loader3 = async ({ request, params }) => {
+  const user = await getUser(request);
+  const post = await db.post.findUnique({
+    where: { id: params.postId }
+  });
+  if (!post)
+    throw new Error("Post not found");
+  const data = { post, user };
+  return data;
+};
+var action3 = async ({ request, params }) => {
+  const form = await request.formData();
+  if (form.get("_method") === "delete") {
+    const user = await getUser(request);
+    const post = await db.post.findUnique({
+      where: { id: params.postId }
+    });
+    if (!post)
+      throw new Error("Post not found");
+    if (user && post.userId === user.id) {
+      await db.post.delete({ where: { id: params.postId } });
+    }
+    return (0, import_remix7.redirect)("/posts");
+  }
+};
+function Post() {
+  const { post, user } = (0, import_remix7.useLoaderData)();
+  return /* @__PURE__ */ React.createElement("div", null, /* @__PURE__ */ React.createElement("div", {
+    className: "page-header"
+  }, /* @__PURE__ */ React.createElement("h1", null, post.title), /* @__PURE__ */ React.createElement(import_remix7.Link, {
+    to: "/posts",
+    className: "btn btn-reverse"
+  }, "Back")), /* @__PURE__ */ React.createElement("div", {
+    className: "page-content"
+  }, post.body), /* @__PURE__ */ React.createElement("div", {
+    className: "page-footer"
+  }, user.id === post.userId && /* @__PURE__ */ React.createElement("form", {
+    method: "POST"
+  }, /* @__PURE__ */ React.createElement("input", {
+    type: "hidden",
+    name: "_method",
+    value: "delete"
+  }), /* @__PURE__ */ React.createElement("button", {
+    className: "btn btn-delete"
+  }, "Delete"))));
+}
+var postId_default = Post;
+
+// route-module:C:\Users\Eduardo\Desktop\cursos\remix-blog\app\routes\posts\index.jsx
+var posts_exports2 = {};
+__export(posts_exports2, {
+  default: () => posts_default2,
+  loader: () => loader4
+});
+var import_remix8 = __toModule(require("remix"));
+var loader4 = async () => {
+  const data = {
+    posts: await db.post.findMany({
+      take: 20,
+      select: { id: true, title: true, createdAt: true },
+      orderBy: { createdAt: "desc" }
+    })
+  };
+  return data;
+};
+function PostItems() {
+  const { posts } = (0, import_remix8.useLoaderData)();
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
+    className: "page-header"
+  }, /* @__PURE__ */ React.createElement("h1", null, "Posts"), /* @__PURE__ */ React.createElement(import_remix8.Link, {
+    to: "/posts/new",
+    className: "btn"
+  }, "New Post")), /* @__PURE__ */ React.createElement("ul", {
+    className: "posts-list"
+  }, posts.map((post) => /* @__PURE__ */ React.createElement("li", {
+    key: post.id
+  }, /* @__PURE__ */ React.createElement(import_remix8.Link, {
+    to: post.id
+  }, /* @__PURE__ */ React.createElement("h3", null, post.title), new Date(post.createdAt).toLocaleString())))));
+}
+var posts_default2 = PostItems;
+
+// route-module:C:\Users\Eduardo\Desktop\cursos\remix-blog\app\routes\posts\new.jsx
+var new_exports = {};
+__export(new_exports, {
+  action: () => action4,
+  default: () => new_default
+});
+var import_remix9 = __toModule(require("remix"));
+function validateTitle(title) {
+  if (typeof title !== "string" || title.length < 3) {
+    return "Title must be at least 3 characters";
+  }
+}
+function validateBody(body) {
+  if (typeof body !== "string" || body.length < 10) {
+    return "Body must be at least 10 characters";
+  }
+}
+function badRequest2(data) {
+  return (0, import_remix9.json)(data, { status: 400 });
+}
+var action4 = async ({ request }) => {
+  const form = await request.formData();
+  const title = form.get("title");
+  const body = form.get("body");
+  const user = await getUser(request);
+  const fields = { title, body };
+  const fieldErrors = {
+    title: validateTitle(title),
+    body: validateBody(body)
+  };
+  if (Object.values(fieldErrors).some(Boolean)) {
+    console.log(fieldErrors);
+    return badRequest2({ fieldErrors, fields });
+  }
+  const post = await db.post.create({ data: __spreadProps(__spreadValues({}, fields), { userId: user.id }) });
+  return (0, import_remix9.redirect)(`/posts/${post.id}`);
+};
+function NewPost() {
+  var _a, _b, _c, _d;
+  const actionData = (0, import_remix9.useActionData)();
+  return /* @__PURE__ */ React.createElement(React.Fragment, null, /* @__PURE__ */ React.createElement("div", {
+    className: "page-header"
+  }, /* @__PURE__ */ React.createElement("h1", null, "New Post"), /* @__PURE__ */ React.createElement(import_remix9.Link, {
+    to: "/posts",
+    className: "btn btn-reverse"
+  }, "Back")), /* @__PURE__ */ React.createElement("div", {
+    className: "page-content"
+  }, /* @__PURE__ */ React.createElement("form", {
+    method: "POST"
+  }, /* @__PURE__ */ React.createElement("div", {
+    className: "form-control"
+  }, /* @__PURE__ */ React.createElement("label", {
+    htmlFor: "title"
+  }, "Title"), /* @__PURE__ */ React.createElement("input", {
+    type: "text",
+    name: "title",
+    id: "title",
+    defaultValue: (_a = actionData == null ? void 0 : actionData.fields) == null ? void 0 : _a.title
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "error"
+  }, ((_b = actionData == null ? void 0 : actionData.fieldErrors) == null ? void 0 : _b.title) ? /* @__PURE__ */ React.createElement("p", {
+    className: "form-validation-error",
+    role: "alert",
+    id: "title-error"
+  }, actionData.fieldErrors.title) : null)), /* @__PURE__ */ React.createElement("div", {
+    className: "form-control"
+  }, /* @__PURE__ */ React.createElement("label", {
+    htmlFor: "body"
+  }, "Post Body"), /* @__PURE__ */ React.createElement("textarea", {
+    name: "body",
+    id: "body",
+    defaultValue: (_c = actionData == null ? void 0 : actionData.fields) == null ? void 0 : _c.body
+  }), /* @__PURE__ */ React.createElement("div", {
+    className: "error"
+  }, ((_d = actionData == null ? void 0 : actionData.fieldErrors) == null ? void 0 : _d.body) ? /* @__PURE__ */ React.createElement("p", {
+    className: "form-validation-error",
+    role: "alert",
+    id: "body-error"
+  }, actionData.fieldErrors.body) : null)), /* @__PURE__ */ React.createElement("button", {
+    type: "submit",
+    className: "btn btn-block"
+  }, "Add Post"))));
+}
+var new_default = NewPost;
+
+// <stdin>
+var import_assets = __toModule(require("./assets.json"));
+var entry = { module: entry_server_exports };
+var routes = {
+  "root": {
     id: "root",
     parentId: void 0,
     path: "",
@@ -754,38 +576,67 @@ var assetsBuildDirectory = "public\\build", future = { v2_dev: !0, unstable_post
     caseSensitive: void 0,
     module: root_exports
   },
-  "routes/$noteId": {
-    id: "routes/$noteId",
+  "routes/auth/logout": {
+    id: "routes/auth/logout",
     parentId: "root",
-    path: ":noteId",
+    path: "auth/logout",
     index: void 0,
     caseSensitive: void 0,
-    module: noteId_exports
+    module: logout_exports
   },
-  "routes/_index": {
-    id: "routes/_index",
+  "routes/auth/login": {
+    id: "routes/auth/login",
+    parentId: "root",
+    path: "auth/login",
+    index: void 0,
+    caseSensitive: void 0,
+    module: login_exports
+  },
+  "routes/index": {
+    id: "routes/index",
     parentId: "root",
     path: void 0,
-    index: !0,
+    index: true,
     caseSensitive: void 0,
-    module: index_exports
+    module: routes_exports
   },
-  "routes/notes": {
-    id: "routes/notes",
+  "routes/posts": {
+    id: "routes/posts",
     parentId: "root",
-    path: "notes",
+    path: "posts",
     index: void 0,
     caseSensitive: void 0,
-    module: notes_exports
+    module: posts_exports
+  },
+  "routes/posts/$postId": {
+    id: "routes/posts/$postId",
+    parentId: "routes/posts",
+    path: ":postId",
+    index: void 0,
+    caseSensitive: void 0,
+    module: postId_exports
+  },
+  "routes/posts/index": {
+    id: "routes/posts/index",
+    parentId: "routes/posts",
+    path: void 0,
+    index: true,
+    caseSensitive: void 0,
+    module: posts_exports2
+  },
+  "routes/posts/new": {
+    id: "routes/posts/new",
+    parentId: "routes/posts",
+    path: "new",
+    index: void 0,
+    caseSensitive: void 0,
+    module: new_exports
   }
 };
 // Annotate the CommonJS export names for ESM import in node:
 0 && (module.exports = {
   assets,
-  assetsBuildDirectory,
   entry,
-  future,
-  publicPath,
   routes
 });
-//# sourceMappingURL=index.js.map
+//# sourceMappingURL=/build/index.js.map
